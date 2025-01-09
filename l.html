@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Enrollment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+        }
+        input, button {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #statusMessage {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Enroll in Vetri Digital Academy</h2>
+    <form id="enrollForm">
+        <input type="text" id="name" name="name" placeholder="Your Name" required>
+        <input type="email" id="email" name="email" placeholder="Your Email" required>
+        <button type="submit">Enroll</button>
+    </form>
+    <p id="statusMessage" style="display: none;"></p>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.1/dist/email.min.js"></script>
+    <script>
+        // Initialize EmailJS
+        emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS Public Key
+
+        document.getElementById("enrollForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form from reloading the page
+
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+
+            // EmailJS parameters
+            const templateParams = {
+                name: name,
+                email: email,
+                message: `Hi ${name},\n\nCongratulations on enrolling in Vetri Digital Academy! You now have lifetime access to the Python Bootcamp course.\n\nBest wishes,\nThe Vetri Digital Academy Team`,
+            };
+
+            emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
+                .then(function(response) {
+                    document.getElementById("statusMessage").style.display = "block";
+                    document.getElementById("statusMessage").textContent = "Congratulations! Email sent successfully.";
+                }, function(error) {
+                    document.getElementById("statusMessage").style.display = "block";
+                    document.getElementById("statusMessage").textContent = "Oops! Something went wrong. Please try again.";
+                });
+        });
+    </script>
+</body>
+</html>
